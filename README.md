@@ -15,7 +15,29 @@ Kaggle research로 나온 프로젝트로, 개인 맞춤형 의약품을 이용�
 ## 1. Dataset
 * 데이터셋의 전체 크기는 총 3316으로 학습 데이터셋으로는 적은 수입니다.
 * 또한, 하나의 문서당 최대 십만 글자까지 들어있기 때문에 최대 토큰수가 512인 BERT를 사용하기에는 무리가 있습니다.
-* 따라서 **한 텍스트를 2000글자(대략 512토큰 이내)로 쪼개 새롭게 문서를 만들어** Data augmentation과 BERT max token length 문제를 동시에 해결했습니다.
+* 따라서 **한 텍스트를 2000글자(대략 512토큰 이내)로 쪼개 새롭게 문서를 만들어** Data augmentation과 BERT max token length 문제를 동시에 해결했습니다.    
+![image](https://user-images.githubusercontent.com/74829786/177877343-6aaaba2d-4ffc-4c88-997d-c3d02b15ca66.png)
+데이터셋수는 3316에서 107352까지 증가하였습니다.
+```python
+# 각 텍스트는 Gene, Variation 정보를 갖도록 한다.
+# special token </s>로 구분지어준다.
+dataset['texts'] = " </s> " + dataset['Gene'] + " </s> " + dataset['Variation'] + ' </s> ' + dataset['TEXT']
+```
+
+```python
+# 데이터셋을 글자수 2000을 기준으로 모두 나눠 데이터프레임에 추가한다.
+n = 2000
+new_df = pd.DataFrame(columns={'ID', 'TEXT', 'NEW_TEXT', 'LABELS', 'CLASS'})
+for i in range(len(dataset)):
+    result = [dataset.iloc[i]['TEXT'][k * n:(k + 1) * n] for k in range((len(dataset.iloc[i]['TEXT']) + n - 1) // n )] 
+    for j in range(len(result)):
+        item = {'ID': dataset.iloc[i]['ID'], 'TEXT': result[j], 
+                'NEW_TEXT': "</s> " + dataset.iloc[i]['Gene'] + " </s> " + dataset.iloc[i]['Variation'] + " </s> " + result[j],
+                'LABELS': dataset.iloc[i]['labels'],
+                'CLASS': dataset.iloc[i]['Class']}
+        new_df = new_df.append(item, ignore_index=True)
+```
+
 * 실제로 실험을 진행해보니 data augmentation을 진행한 데이터셋을 학습시킨 모델이 그렇지 않은 모델보다 더 성능이 좋은 것을 확인할 수 있었습니다.    
 ![image](https://user-images.githubusercontent.com/74829786/177870405-2029e627-8adc-470a-bccd-7a7d8be5223b.png)
 
