@@ -2,7 +2,7 @@
 ===
 ### *Kaggle☁ Predict the effect of Genetic Variants to enable Personalized Medicine!😀*     
 ![image](https://user-images.githubusercontent.com/74829786/177875738-e780ded5-07b7-4b56-b2b5-d1d999bbd03f.png)
-Kaggle research로 나온 프로젝트로, 개인 맞춤형 의약품을 이용하기 위해 진행되었습니다.    
+Kaggle research로 나온 프로젝트로, **개인 맞춤형 의약품**을 이용하기 위해 진행되었습니다.    
 먼저 염기 서열이 분석되면, 암 종양은 수천 개의 유전적 돌연변이를 가질 수 있습니다. 그러나 문제는 종양 성장에 기여하는 돌연변이와 중성 돌연변이를 구별하는 것입니다.    
 **현재로써는 이 유전자 돌연변이에 대한 해석은 수동으로 수행되고 있습니다. 임상 병리학자는 텍스트 기반 임상 문헌 근거를 기반으로 모든 단일 유전자 돌연변이를 수동으로 검토하고 분류해야하고, 이는 매우 소모적인 작업입니다.**    
 
