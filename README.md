@@ -14,10 +14,8 @@ Kaggle research로 나온 프로젝트로, 개인 맞춤형 의약품을 이용�
 
 ## 1. Dataset
 * 데이터셋의 전체 크기는 총 3316으로 학습 데이터셋으로는 적은 수입니다.
-* 또한, 하나의 문서당 최대 십만 글자까지 들어있기 때문에 최대 토큰수가 512인 BERT를 사용하기에는 무리가 있습니다.
-* 따라서 **한 텍스트를 2000글자(대략 512토큰 이내)로 쪼개 새롭게 문서를 만들어** Data augmentation과 BERT max token length 문제를 동시에 해결했습니다.    
-![image](https://user-images.githubusercontent.com/74829786/177877343-6aaaba2d-4ffc-4c88-997d-c3d02b15ca66.png)
-데이터셋수는 3316에서 107352까지 증가하였습니다.
+* 하나의 문서당 최대 십만 글자까지 들어있기 때문에 최대 토큰수가 512인 BERT를 사용하기에는 무리가 있습니다.
+* 따라서 **한 텍스트를 2000글자(대략 512토큰 이내)로 쪼개 새롭게 문서를 만들어** Data augmentation과 BERT max token length 문제를 동시에 해결했습니다. 그 결과 데이터셋 수는 3316에서 107352로 증가하였습니다.
 ```python
 # 각 텍스트는 Gene, Variation 정보를 갖도록 한다.
 # special token </s>로 구분지어준다.
@@ -37,6 +35,11 @@ for i in range(len(dataset)):
                 'CLASS': dataset.iloc[i]['Class']}
         new_df = new_df.append(item, ignore_index=True)
 ```
+* Class는 1, 2, 3...과 같은 형식으로 나타나있는데, one-hot encoding을 통해 레이블을 새로 정의해줍니다.
+* 최종적인 Dataframe의 모습은 아래와 같습니다.
+![image](https://user-images.githubusercontent.com/74829786/177877343-6aaaba2d-4ffc-4c88-997d-c3d02b15ca66.png)
+
+
 
 * 실제로 실험을 진행해보니 data augmentation을 진행한 데이터셋을 학습시킨 모델이 그렇지 않은 모델보다 더 성능이 좋은 것을 확인할 수 있었습니다.    
 ![image](https://user-images.githubusercontent.com/74829786/177870405-2029e627-8adc-470a-bccd-7a7d8be5223b.png)
