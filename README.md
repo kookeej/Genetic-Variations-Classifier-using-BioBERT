@@ -54,8 +54,9 @@ for i in range(len(dataset)):
 ```
 epochs: 10
 learning rate: 1e-4
-optimizer: Adam
-loss fucntion: MSE
+optimizer: AdamW
+scheduler: get_linear_schedule_with_warmup
+loss fucntion: BCEWithLogitsLoss, log loss
 ```
 * **ID Embedding을 적용한 경우**    
 ![image](https://user-images.githubusercontent.com/74829786/177868532-eb173fd2-4a94-46e6-a3c7-782a6c819e89.png)
