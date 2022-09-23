@@ -96,6 +96,7 @@ def tokenizing(dataset, mode):
     return tokenized, labels, ids, length
 
 
+
 # Dataset 구성.
 class CustomDataset(Dataset):
     def __init__(self, tokenized_dataset, labels, ids, length, mode):
