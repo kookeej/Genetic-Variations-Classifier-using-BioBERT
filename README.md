@@ -1,6 +1,7 @@
-[Kaggle research] Personalized Medicine: Redefining Cancer Treatment
+Personalized Medicine: Redefining Cancer Treatment
 ===
-### *[Kaggle] Predict the effect of Genetic Variants to enable Personalized Medicine!*     
+*Classifying genetic variations using BioBERT*
+### *[Kaggle research] Predict the effect of Genetic Variants to enable Personalized Medicine! [[Link]](https://www.kaggle.com/competitions/msk-redefining-cancer-treatment)*     
 ![image](https://user-images.githubusercontent.com/74829786/177875738-e780ded5-07b7-4b56-b2b5-d1d999bbd03f.png)
 Kaggle research에서 제안된 문제로, 개인 맞춤형 의약품을 이용하기 위해 진행된 연구 프로젝트입니다.    
 암 종양은 수천 개의 유전적 돌연변이를 가질 수 있습니다. 그 중에서 종양 성장에 기여하는 돌연변이와 중성 돌연변이를 구별하는 것이 이 리서치의 주요 목표입니다.    
@@ -10,9 +11,9 @@ Kaggle research에서 제안된 문제로, 개인 맞춤형 의약품을 이용�
 
 
                                                                                                                    
-***
+---
 
-## 1. Dataset
+## 1. Preprocessing
 * 데이터셋의 전체 크기는 총 3316으로 학습 데이터셋으로는 적은 수입니다.
 * 하나의 문서당 최대 십만 글자까지 들어있기 때문에 최대 토큰수가 512인 BERT를 사용하기에는 무리가 있습니다.
 * 따라서 **한 텍스트를 2000글자(대략 512토큰 이내)로 쪼개 새롭게 문서를 만들어** Data augmentation과 BERT max token length 문제를 동시에 해결했습니다. 그 결과 데이터셋 수는 3316에서 107352로 증가하였습니다.
@@ -44,11 +45,13 @@ for i in range(len(dataset)):
 * 실제로 실험을 진행해보니 data augmentation을 진행한 데이터셋을 학습시킨 모델이 그렇지 않은 모델보다 더 성능이 좋은 것을 확인할 수 있었습니다.    
 ![image](https://user-images.githubusercontent.com/74829786/177870405-2029e627-8adc-470a-bccd-7a7d8be5223b.png)
 
+---
 
 ## 2. Model
 * Biomedical text를 위한 사전학습 모델인 [BioBERT-Large v1.1](https://github.com/dmis-lab/biobert)를 사용하였습니다.
 * ID Embedding을 적용한 모델과 적용하지 않은 모델을 설계하였습니다.
 
+---
 
 ## 3. Experiments
 ```
@@ -67,11 +70,10 @@ loss fucntion: BCEWithLogitsLoss, log loss
 * ID Embedding을 적용한 경우가 그렇지 않은 경우보다 성능이 더 뛰어나다는 것을 확인할 수 있습니다.    
 ![image](https://user-images.githubusercontent.com/74829786/177868219-7c2e4a80-b301-401e-aafa-97fe1669eff7.png)
 
-***
+---
 
-### Usage
-
-#### 1. Data Preprocessing
+## 4. Run
+### 4.1. Data Preprocessing
 ```python
 $ python preprocessing.py \
   --train_path =TRAIN_DATASET_PATH
@@ -79,7 +81,7 @@ $ python preprocessing.py \
   --max_len    =MAX_TOKEN_LENGTH  # 256
 ```
 
-#### 2. Training
+### 4.2. Training
 ```python
 $ python train.py \
   --epochs =10
